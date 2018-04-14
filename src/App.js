@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
+import MessageList from './components/MessageList';
 
-/*<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>*/
   var config = {
     apiKey: "AIzaSyA5YqUXWBzkBmy_xOTrG24M-ckUf7h1_M8",
     authDomain: "bloc-chat-react-7fb1e.firebaseapp.com",
@@ -16,20 +15,34 @@ import RoomList from './components/RoomList';
   firebase.initializeApp(config);
 
   class App extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        activeRoom: "",
+        activeRoomKey: "-L9hCnXhdtQ4CZlI_K22"
+      };
+    }
+
     render() {
       return (
         <div>
-          <header>
-            <nav>
-              <div><Link to='/roomlist'>Room List</Link></div>
-            </nav>
-          </header>
-            <main>
-              <Route path="/roomlist" component={RoomList} />
-            </main>
+          <header><h1>Bloc Chat</h1></header>
+          <main>
+            <div className="roomlist">
+              <RoomList
+              firebase={firebase}
+              activeRoomKey={this.state.activeRoomKey}/>
+            </div>
+            <div className="messagelist">
+              <MessageList
+              firebase={firebase}
+              activeMessages={this.state.activeMessages}/>
+            </div>
+          </main>
         </div>
       );
     }
   }
+
 
 export default App;
